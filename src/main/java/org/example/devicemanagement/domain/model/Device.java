@@ -1,4 +1,4 @@
-package org.example.devicemanagement.model;
+package org.example.devicemanagement.domain.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

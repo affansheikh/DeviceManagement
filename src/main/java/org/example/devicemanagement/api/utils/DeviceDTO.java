@@ -1,4 +1,4 @@
-package org.example.devicemanagement.model;
+package org.example.devicemanagement.api.utils;
 
 public class DeviceDTO {
     private String name;

@@ -1,8 +1,8 @@
-package org.example.devicemanagement.controller;
+package org.example.devicemanagement.api.controller;
 
-import org.example.devicemanagement.model.Device;
-import org.example.devicemanagement.model.DeviceDTO;
-import org.example.devicemanagement.repository.DeviceRepository;
+import org.example.devicemanagement.api.utils.DeviceDTO;
+import org.example.devicemanagement.domain.model.Device;
+import org.example.devicemanagement.domain.service.DeviceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,7 +21,7 @@ import java.util.List;
 @RequestMapping("/devices")
 public class DeviceController {
     @Autowired
-    DeviceRepository deviceRepository;
+    DeviceService deviceService;
 
     /**
      * Supports two functionalities
@@ -30,17 +30,13 @@ public class DeviceController {
      */
     @GetMapping
     public ResponseEntity<List<Device>> getAllDevices(@RequestParam(required = false) String brand) {
-        List<Device> devices;
-        if (brand == null)
-            devices = deviceRepository.findAll();
-        else
-            devices = deviceRepository.findByBrand(brand);
+        List<Device> devices = deviceService.getAllDevices(brand);
         return ResponseEntity.ok(devices);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity getDeviceById(@PathVariable Long id) {
-        Device device = deviceRepository.findById(id).orElse(null);
+        Device device = deviceService.getDeviceById(id);
         if (device == null)
             return ResponseEntity.status(404).body("The device does not exist for this id");
         return ResponseEntity.ok(device);
@@ -48,10 +44,10 @@ public class DeviceController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity deleteDeviceById(@PathVariable Long id) {
-        Device device = deviceRepository.findById(id).orElse(null);
+        Device device = deviceService.getDeviceById(id);
         if (device == null)
             return ResponseEntity.status(404).body("The device does not exist for this id");
-        deviceRepository.delete(device);
+        deviceService.deleteDeviceById(id);
         return ResponseEntity.ok().build();
     }
 
@@ -62,20 +58,14 @@ public class DeviceController {
     @PostMapping
     public ResponseEntity<Device> createDevice(@RequestBody DeviceDTO deviceBody) {
         Device device = new Device(deviceBody.getName(), deviceBody.getBrand());
-        deviceRepository.save(device);
-        return ResponseEntity.ok(device);
+        return ResponseEntity.ok(deviceService.createDevice(device));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity updateDevice(@PathVariable Long id, @RequestBody DeviceDTO deviceBody) {
-        Device existingDevice = deviceRepository.findById(id).orElse(null);
+        Device existingDevice = deviceService.getDeviceById(id);
         if (existingDevice == null)
             return ResponseEntity.status(404).body("The device does not exist for this id");
-        String updatedName = deviceBody.getName() == null ? existingDevice.getName() : deviceBody.getName();
-        String updatedBrand = deviceBody.getBrand() == null ? existingDevice.getBrand() : deviceBody.getBrand();
-        existingDevice.setName(updatedName);
-        existingDevice.setBrand(updatedBrand);
-        deviceRepository.save(existingDevice);
-        return ResponseEntity.ok(existingDevice);
+        return ResponseEntity.ok(deviceService.updateDevice(deviceBody, existingDevice));
     }
 }

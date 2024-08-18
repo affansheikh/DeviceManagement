@@ -1,6 +1,6 @@
-package org.example.devicemanagement.repository;
+package org.example.devicemanagement.db.repository;
 
-import org.example.devicemanagement.model.Device;
+import org.example.devicemanagement.domain.model.Device;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
