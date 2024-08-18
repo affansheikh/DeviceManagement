@@ -1,12 +1,12 @@
-package org.example.devicemanagement.db.repository;
+package org.example.devicemanagement.repository;
 
-import org.example.devicemanagement.db.model.Device;
+import org.example.devicemanagement.model.Device;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface DeviceRepository extends JpaRepository<Device, Long> {
-    Device findByBrand(String Brand);
-
-
+    List<Device> findByBrand(String Brand);
 }
