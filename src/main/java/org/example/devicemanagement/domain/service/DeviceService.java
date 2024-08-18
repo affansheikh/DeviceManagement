@@ -6,6 +6,7 @@ import org.example.devicemanagement.domain.model.Device;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 
 @Service
@@ -38,6 +39,7 @@ public class DeviceService {
         String updatedBrand = deviceBody.getBrand() == null ? currentDevice.getBrand() : deviceBody.getBrand();
         currentDevice.setName(updatedName);
         currentDevice.setBrand(updatedBrand);
+        currentDevice.setUpdatedAt(Instant.now());
         return deviceRepository.save(currentDevice);
     }
 }
