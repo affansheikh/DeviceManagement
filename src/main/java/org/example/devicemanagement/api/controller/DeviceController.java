@@ -58,7 +58,7 @@ public class DeviceController {
     @PostMapping
     public ResponseEntity<Device> createDevice(@RequestBody DeviceDTO deviceBody) {
         Device device = new Device(deviceBody.getName(), deviceBody.getBrand());
-        return ResponseEntity.ok(deviceService.createDevice(device));
+        return ResponseEntity.status(201).body(deviceService.createDevice(device));
     }
 
     @PutMapping("/{id}")
