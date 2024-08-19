@@ -10,7 +10,9 @@ This service allows to
 ## Details
 This a Spring Boot application that runs an HTTP server on top of In-Memory database.
 The [schema.sql](src/main/resources/schema.sql) file contains the schema for database tables.
-The [data.sql](src/main/resources/data.sql) file contains an initial entry into the database table for health check
+The [data.sql](src/main/resources/data.sql) file contains an initial entry into the database table for health check.
+You can run the up and start making requests to endpoints either through web browser or Postman. The application is 
+running on _port:8080_
 
 ### API
 -  Each API endpoint is specified in the [OpenAPI spec](openapi.yaml) and allows you to test the endpoints directly
